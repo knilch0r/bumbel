@@ -88,9 +88,10 @@ void setup(void) {
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
   Serial.println("");
-  Serial.print(sizeof(int));
-  Serial.print(" ");
-  Serial.println(sizeof(long));
+  pixels.begin();
+  pixels.clear();
+  Serial.println("pixels ready for the show");
+  pixels.show();
   Serial.print("Connecting to ");
   Serial.print(ssid);
   Serial.println("...");
@@ -102,7 +103,11 @@ void setup(void) {
     digitalWrite(led, w++ & 1);
     delay(500);
     Serial.print(".");
+    for (int i=0; i < SZY; i++)
+      setpixel(0, i, ((w&(1<<(SZY-1-i)))?pixels.Color(0,0,0,123):pixels.Color(0,0,0,0)));
+    pixels.show();
   }
+  LED_OFF();
 
   Serial.println("");
   Serial.println("Connected.");
@@ -117,9 +122,6 @@ void setup(void) {
   server.onNotFound(handleNotFound);
   server.begin();
   Serial.println("HTTP server started");
-  pixels.begin();
-  pixels.clear();
-  Serial.println("Ready for the show");
 }
 
 void setpixel(unsigned x, unsigned y, uint32_t color){
