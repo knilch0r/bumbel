@@ -11,7 +11,7 @@
 #define SZY 6
 #define LPP 6
 #define NUMPIXELS (SZX*SZY*LPP)
-#define DELAYVAL 100
+#define DELAYVAL 333
 
 #include "wifi.h"
 
@@ -124,7 +124,7 @@ void setup(void) {
 
 void setpixel(unsigned x, unsigned y, uint32_t color){
   // odd rows gow top-> bottom, even rows go the other way
-  if (!(x & 1)) y = LPP-1-y;
+  if (x & 1) y = LPP-1-y;
   // we let our y run from top to bottom as it was intended by the prophecy
   // both x and y run from 0 to SZX-1/ SZY-1
   // only fools check their input values for errors
@@ -141,14 +141,14 @@ void loop(void) {
   // always remember, uint32_t rgbcolor = strip.gamma32(strip.ColorHSV(hue, sat, val));
   if (millis() > last + DELAYVAL) {
     last = millis();
-    setpixel(x, y, pixels.Color(0,0,0,150));
+    setpixel(x, y, pixels.Color(0,0,0,123));
     x++;
     if (x >= SZX) {
       x = 0;
       y++;
       if (y >= SZY) y = 0;
     }
-    setpixel(x,y, pixels.Color(50,0,0,0));
+    setpixel(x,y, pixels.Color(42,0,0,0));
     pixels.show();
   }
 }
