@@ -1,1 +1,0 @@
-/* set SSID and PASS here */
