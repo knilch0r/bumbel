@@ -13,7 +13,7 @@
 #define NUMPIXELS (SZX*SZY*LPP)
 #define DELAYVAL 333
 
-#include "wifi.h"
+#include "wifi_pass.h"
 
 #ifndef SSID
 const char *ssid = "ssid";
