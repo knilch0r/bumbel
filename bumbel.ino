@@ -104,7 +104,7 @@ void setup(void) {
     delay(500);
     Serial.print(".");
     for (int i=0; i < SZY; i++)
-      setpixel(0, i, ((w&(1<<(SZY-1-i)))?pixels.Color(0,0,0,123):pixels.Color(0,0,0,0)));
+      setpixel(i, 0, ((w&(1<<(SZY-1-i)))?pixels.Color(0,0,0,42):pixels.Color(0,0,0,0)));
     pixels.show();
   }
   LED_OFF();
@@ -131,7 +131,11 @@ void setpixel(unsigned x, unsigned y, uint32_t color){
   // both x and y run from 0 to SZX-1/ SZY-1
   // only fools check their input values for errors
   int s = (x*LPP + y) * LPP;
+#ifdef USE_ALL
   for (int i = s; i < s+LPP; i++)
+#else
+  int i=s+(LPP/2);
+#endif
     pixels.setPixelColor(i, color);
 }
 
@@ -143,14 +147,14 @@ void loop(void) {
   // always remember, uint32_t rgbcolor = strip.gamma32(strip.ColorHSV(hue, sat, val));
   if (millis() > last + DELAYVAL) {
     last = millis();
-    setpixel(x, y, pixels.Color(0,0,0,123));
+    setpixel(x, y, pixels.Color(0,0,0,42));
     x++;
     if (x >= SZX) {
       x = 0;
       y++;
       if (y >= SZY) y = 0;
     }
-    setpixel(x,y, pixels.Color(42,0,0,0));
+    setpixel(x,y, pixels.Color(23,0,0,0));
     pixels.show();
   }
 }
